@@ -1,0 +1,8 @@
+{:paths ["src"
+         ;; There seems to be an issue with tools.deps when one project depends
+         ;; on another that has absolute paths in the `:paths` vector.
+         ;; For that reason we use URLs.
+         "file:///System/Library/Frameworks/JavaScriptCore.framework"
+         "file:///System/Library/Frameworks/JavaScriptCore.framework/Headers"]
+ :deps {com.github.lxbr/effing {:git/url "https://github.com/lxbr/effing"
+                                :sha "e649a09a5971ceb9f15749215143a945e97d06f4"}}}
