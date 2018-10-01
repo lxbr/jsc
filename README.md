@@ -41,7 +41,7 @@ A data representation can be created via:
 (in-ns 'com.github.lxbr.jsc.util)
 
 (->> (read-function-declarations)
-     (mapv jsc-to-cffi-types)
+     (mapv jsc-to-ffi-types)
      (clojure.pprint/pprint))
 ```
 

@@ -1,7 +1,7 @@
 (ns com.github.lxbr.jsc.util
   (:require [clojure.java.io :as io]
             [com.github.lxbr.effing :as ffi])
-  (:import (com.kenai.jffi Library #_Closure)))
+  (:import com.kenai.jffi.Library))
 
 (set! *warn-on-reflection* true)
 
@@ -78,7 +78,7 @@
    "double"                            :double
    "JSType"                            :int32})
 
-(defn jsc-to-cffi-types
+(defn jsc-to-ffi-types
   [fn-spec]
   (let [{:keys [return params]} fn-spec
         new-return (update return :kind type-map)
@@ -96,7 +96,7 @@
 (defmacro create-bindings!
   []
   (let [fns (->> (read-function-declarations)
-                 (mapv jsc-to-cffi-types))
+                 (mapv jsc-to-ffi-types))
         lib (-> (io/resource "JavaScriptCore")
                 (io/file)
                 (.getAbsolutePath)
