@@ -5,4 +5,4 @@
          "file:///System/Library/Frameworks/JavaScriptCore.framework"
          "file:///System/Library/Frameworks/JavaScriptCore.framework/Headers"]
  :deps {com.github.lxbr/effing {:git/url "https://github.com/lxbr/effing"
-                                :sha "e649a09a5971ceb9f15749215143a945e97d06f4"}}}
+                                :sha "b29f76df0b8f8c89b21f09fccc3a734ddc292bc1"}}}
