@@ -13,7 +13,7 @@
         (map (fn [[a b c]]
                (let [{:keys [name kind] :as param}
                      (cond
-                       (nil? b) {:kind a}
+                       (nil? b) {:kind a :name (str (gensym "arg"))}
                        (= a "const")
                        {:const true
                         :kind  b
