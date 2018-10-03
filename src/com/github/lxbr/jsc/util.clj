@@ -85,7 +85,9 @@
         new-params (mapv #(update % :kind type-map) params)]
     (assoc fn-spec
            :return new-return
-           :params (if (= [{:kind :void}] new-params)
+           :params (if (and (== 1 (count new-params))
+                            (not (:pointer (first new-params)))
+                            (= :void (:kind (first new-params))))
                      []
                      new-params))))
 
