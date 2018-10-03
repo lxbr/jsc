@@ -17,10 +17,10 @@
                        (= a "const")
                        {:const true
                         :kind  b
-                        :name  c}
+                        :name  (or c (str (gensym "arg")))}
                        :else
                        {:kind a
-                        :name b})]
+                        :name (or b (str (gensym "arg")))})]
                  (cond-> param
                    (and (some? name)
                         (clojure.string/ends-with? name "[]"))
