@@ -3,7 +3,10 @@
 
 (set! *warn-on-reflection* true)
 
-(util/create-bindings!)
+(util/create-bindings!
+ {:lib-path             "/System/Library/Frameworks/JavaScriptCore.framework/JavaScriptCore"
+  :headers-path         "/System/Library/Frameworks/JavaScriptCore.framework/Headers"
+  :precompile-functions false})
 
 (util/create-closure-builders!
  [{:name "JSObjectCallAsFunctionCallback"

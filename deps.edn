@@ -1,6 +1,3 @@
-{:paths [;; There seems to be an issue with tools.deps when one project depends
-         ;; on another that has absolute paths in the `:paths` vector.
-         ;; For that reason we use a concatenated path.
-         "src:/System/Library/Frameworks/JavaScriptCore.framework:/System/Library/Frameworks/JavaScriptCore.framework/Headers"]
+{:paths ["src"]
  :deps {com.github.lxbr/effing {:git/url "https://github.com/lxbr/effing"
                                 :sha "b29f76df0b8f8c89b21f09fccc3a734ddc292bc1"}}}

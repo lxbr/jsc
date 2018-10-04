@@ -44,12 +44,12 @@
                 :params (into [] (parse-params params))})))))
 
 (defn read-function-declarations
-  []
-  (->> (slurp (io/resource "JavaScript.h"))
+  [headers-path]
+  (->> (slurp (io/file headers-path "JavaScript.h"))
        (re-seq #"#include <JavaScriptCore/(.*)>")
        (eduction
         (map second)
-        (map (comp slurp io/resource))
+        (map (comp slurp #(io/file headers-path %)))
         (mapcat parse-header))))
 
 (def type-map
@@ -92,19 +92,29 @@
                      new-params))))
 
 (defn generate-bindings
-  [functions lib]
-  (cons 'do (map #(ffi/create-implementation lib % {:precompile-functions false}) functions)))
+  [functions lib opts]
+  (cons 'do (map #(ffi/create-implementation lib % opts) functions)))
+
+(defn generate-bindings-for-lib-and-headers
+  ([lib-path headers-path] (generate-bindings-for-lib-and-headers lib-path headers-path {}))
+  ([lib-path headers-path opts]
+   (let [fns (->> (read-function-declarations headers-path)
+                  (mapv jsc-to-ffi-types))
+         lib (when (some? lib-path)
+               (-> (io/file lib-path)
+                   (.getAbsolutePath)
+                   (Library/openLibrary (bit-or Library/LOCAL Library/LAZY))))]
+     (generate-bindings fns lib opts))))
 
 (defmacro create-bindings!
-  []
-  (let [fns (->> (read-function-declarations)
-                 (mapv jsc-to-ffi-types))
-        lib (-> (io/resource "JavaScriptCore")
-                (io/file)
-                (.getAbsolutePath)
-                (Library/openLibrary (bit-or Library/LOCAL Library/LAZY)))]
-    (generate-bindings fns lib)))
+  [opts]
+  (let [{:keys [lib-path headers-path]} opts]
+    (generate-bindings-for-lib-and-headers lib-path headers-path opts)))
+
+(defn generate-clojure-builders
+  [function-specs]
+  (cons 'do (map ffi/create-closure-builder function-specs)))
 
 (defmacro create-closure-builders!
   [function-specs]
-  (cons 'do (map ffi/create-closure-builder function-specs)))
+  (generate-clojure-builders function-specs))
