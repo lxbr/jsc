@@ -1,3 +1,5 @@
 {:paths ["src"]
  :deps {com.github.lxbr/effing {:git/url "https://github.com/lxbr/effing"
-                                :sha "141610ff3d27c3d2406f82caa9d9b088db6f52fc"}}}
+                                :sha "94c062d1a15513c9b5d8ecda69d3b767149114cb"}}
+ :aliases
+ {:local {:override-deps {com.github.lxbr/effing {:local/root "../effing"}}}}}
