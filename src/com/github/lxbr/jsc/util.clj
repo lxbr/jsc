@@ -111,10 +111,10 @@
   (let [{:keys [lib-path headers-path]} opts]
     (generate-bindings-for-lib-and-headers lib-path headers-path opts)))
 
-(defn generate-clojure-builders
+(defn generate-closure-builders
   [function-specs]
   (cons 'do (map ffi/create-closure-builder function-specs)))
 
 (defmacro create-closure-builders!
   [function-specs]
-  (generate-clojure-builders function-specs))
+  (generate-closure-builders function-specs))
